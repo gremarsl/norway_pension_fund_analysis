@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import config
-import data
 from config import directory
 
 array_all_companies = []
@@ -194,5 +193,3 @@ def start():
 
 if __name__ == '__main__':
     start()
-
-#TODO exclude data from array if no data for the last year exists
