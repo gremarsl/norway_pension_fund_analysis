@@ -2,20 +2,20 @@ import os
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import config
-from config import directory
+import user_config
 
 array_all_companies = []
-
+ownership = []
+data_of_all_elements = []
 
 # TODO testframework um modularisiert zu testen
 
 def get_invested_capital_in_each_sector():
-    for filename in os.listdir(directory):
-        df = pd.read_excel(directory + filename)
+    for filename in os.listdir(user_config.directory):
+        df = pd.read_excel(user_config.directory + filename)
         i = 2002
         market_value_of_one_year = [i]
-        for industry in config.industries:
+        for industry in user_config.industries:
             single_data = []
             single_data.append(industry)
 
@@ -28,8 +28,8 @@ def get_invested_capital_in_each_sector():
 
 
 def get_company_names_by_industry_and_market_value(industry, number_of_companies):
-    for filename in os.listdir(directory):
-        df = pd.read_excel(directory + filename)
+    for filename in os.listdir(user_config.directory):
+        df = pd.read_excel(user_config.directory + filename)
 
         df.sort_index(axis=1)
 
@@ -58,7 +58,7 @@ def get_company_names_by_industry_and_market_value(industry, number_of_companies
 
 
 def sort_and_extract_data_by_market_value(industry, filename):
-    df = pd.read_excel(directory + filename)
+    df = pd.read_excel(user_config.directory + filename)
 
     df.sort_index(axis=1)
     filter_by_industry = df.loc[df['Industry'] == industry]
@@ -80,7 +80,7 @@ def analyse_data(industry, companies_to_analyze):
 
         data_of_one_element = [company]
 
-        for filename in os.listdir(directory):
+        for filename in os.listdir(user_config.directory):
             cutted = filename.split("_")
             year = cutted[1]
             # df_csv = pd.read_csv(directory_csv + filename,sep=';')
@@ -97,22 +97,22 @@ def analyse_data(industry, companies_to_analyze):
 
         for i in data_of_one_element:
             if "2017" in i[0]:
-                config.data_of_all_elements.append(data_of_one_element)
+                data_of_all_elements.append(data_of_one_element)
 
             else:
                 #skip this data since it is two old
                 continue
 
-    print(config.data_of_all_elements)
+    print(user_config.data_of_all_elements)
 
-    return config.data_of_all_elements
+    return user_config.data_of_all_elements
 
 
 def collect_companies():
-    companies_to_analyze = get_company_names_by_industry_and_market_value(config.industry_to_analyze,
-                                                                          config.number_of_companies_to_analyze)
+    companies_to_analyze = get_company_names_by_industry_and_market_value(user_config.industry_to_analyze,
+                                                                          user_config.number_of_companies_to_analyze)
 
-    analyse_data(config.industry_to_analyze, companies_to_analyze)
+    analyse_data(user_config.industry_to_analyze, companies_to_analyze)
     pass
 
 
@@ -175,17 +175,17 @@ def plot_element_of_list(elem):
 
 
 def plot_data():
-    for elem in config.data_to_visualize:
+    for elem in user_config.data_to_visualize:
         plot_element_of_list(elem)
 
     pass
 
 
 def start():
-    if config.collect_companies_from_data:
+    if user_config.collect_companies_from_data:
         collect_companies()
 
-    if config.visualize_data:
+    if user_config.visualize_data:
         plot_data()
 
     pass

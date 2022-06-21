@@ -20,6 +20,9 @@ Die Norges-Bank stellt alle Daten und Investitionen zur Verfügung.
 Für die Analyse in diesem Programm, sind sie zu downloaden und hier zu referenzieren. 
 Die Dateien können hier gedownloaded werden: https://www.nbim.no/en/the-fund/investments/#/
 
+#### How the program works 
+Zur Ausführung des Skripts gibt es eigentlich grundlegend lediglich zwei Pfade
+
 ### Usage
 
 
