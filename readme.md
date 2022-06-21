@@ -16,12 +16,13 @@ Preparations are required so that the program can be used successfully and compa
 These are described in this section.
 
 #### Where does the data for a company analysis come from ?
-Die Norges-Bank stellt alle Daten und Investitionen zur Verfügung. 
-Für die Analyse in diesem Programm, sind sie zu downloaden und hier zu referenzieren. 
-Die Dateien können hier gedownloaded werden: https://www.nbim.no/en/the-fund/investments/#/
+Norges Bank provides all data and investments. 
+For the analysis, they are required and to be downloaded. 
+The files can be downloaded here: https://www.nbim.no/en/the-fund/investments/#/
+Afterwards please reference the file path in  `user_config.py`.
 
 #### How the program works 
-Zur Ausführung des Skripts gibt es eigentlich grundlegend lediglich zwei Pfade
+For the execution of the script there are actually basically only two paths
 
 ### Usage
 
