@@ -2,18 +2,21 @@ import os
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-
+import config
 import data
 from config import directory
-from data import data_of_basic_materials_top_5
 
+array_all_companies = []
+
+
+# TODO testframework um modularisiert zu testen
 
 def get_invested_capital_in_each_sector():
     for filename in os.listdir(directory):
         df = pd.read_excel(directory + filename)
         i = 2002
         market_value_of_one_year = [i]
-        for industry in data.industries:
+        for industry in config.industries:
             single_data = []
             single_data.append(industry)
 
@@ -51,8 +54,7 @@ def get_company_names_by_industry_and_market_value(industry, number_of_companies
     flat_list_without_douplicates = list(set(flat_list))
 
     print(flat_list_without_douplicates)
-    print("There are {} companies to analyse:".format(len(flat_list_without_douplicates)))
-    print("end of sort_and_filter_companies_by_market_value")
+    print(f"There are {flat_list_without_douplicates} companies to analyse")
     return flat_list_without_douplicates
 
 
@@ -74,10 +76,10 @@ def sort_and_extract_data_by_market_value(industry, filename):
     return array_reduced_all_lines
 
 
-def analyse_data(industry, companies_to_analyse):
-    for element in companies_to_analyse:
+def analyse_data(industry, companies_to_analyze):
+    for company in companies_to_analyze:
 
-        data_of_one_element = [element]
+        data_of_one_element = [company]
 
         for filename in os.listdir(directory):
             cutted = filename.split("_")
@@ -87,98 +89,110 @@ def analyse_data(industry, companies_to_analyse):
 
             for line in extracted_data:
                 # compare
-                if line[0] == element:
+                if line[0] == company:
                     market_cap = line[1]
                     ownership = line[2]
                     data_of_one_element.append([year, market_cap, ownership])
                 else:
                     continue
-        data_of_all_elements.append(data_of_one_element)
 
-    print(data_of_all_elements)
+        for i in data_of_one_element:
+            if "2017" in i[0]:
+                config.data_of_all_elements.append(data_of_one_element)
 
-    return data_of_all_elements
+            else:
+                #skip this data since it is two old
+                continue
+
+    print(config.data_of_all_elements)
+
+    return config.data_of_all_elements
 
 
-# input from user
-collect_companies_from_data = False
-visualize_data = True
+def collect_companies():
+    companies_to_analyze = get_company_names_by_industry_and_market_value(config.industry_to_analyze,
+                                                                          config.number_of_companies_to_analyze)
 
-# required input from user if plot_data == True
-data_to_visualize = data_of_basic_materials_top_5
+    analyse_data(config.industry_to_analyze, companies_to_analyze)
+    pass
 
-# required input from user if plot_data is False (--> data collection)
-industry_to_analyze = "Oil & Gas"
-number_of_companies_to_analyze = 5
 
-ownership = []
-data_of_all_elements = []
-
-if __name__ == '__main__':
-
-    if collect_companies_from_data:
-        companies_to_analyze = get_company_names_by_industry_and_market_value(industry_to_analyze,
-                                                                              number_of_companies_to_analyze)
-
-        data_of_all_elements = analyse_data(industry_to_analyze, companies_to_analyze)
-
+def plot_element_of_list(elem):
     pd.set_option('display.max_columns', None)
 
-    array_all_companies = []
+    fig, host = plt.subplots(figsize=(8, 5))
 
-    if visualize_data:
+    par1 = host.twinx()
 
-        for elem in data_to_visualize:
+    company_name = elem[0]
 
-            fig, host = plt.subplots(figsize=(8, 5))
+    array_market_value = []
+    array_ownership = []
+    array_year = []
+    for index in range(1, len(elem)):
+        year = elem[index][0]
+        year = int(year)
+        market_value = elem[index][1]
+        ownership = elem[index][2]
 
-            par1 = host.twinx()
+        array_year.append(year)
+        array_ownership.append(ownership)
+        array_market_value.append(market_value)
 
-            company_name = elem[0]
+    # alternative:
+    p1, = host.plot(array_year, array_market_value, color="red", label="USD")
+    host.scatter(array_year, array_market_value, color="red", label="USD")
 
-            array_market_value = []
-            array_ownership = []
-            array_year = []
-            for index in range(1, len(elem)):
-                year = elem[index][0]
-                year = int(year)
-                market_value = elem[index][1]
-                ownership = elem[index][2]
+    p2, = par1.plot(array_year, array_ownership, color="green", label="Ownership")
+    par1.scatter(array_year, array_ownership, color="green", label="Ownership")
 
-                array_year.append(year)
-                array_ownership.append(ownership)
-                array_market_value.append(market_value)
+    # show grid
+    plt.grid(b=None, which='major', axis='both')
 
-            # alternative:
-            p1, = host.plot(array_year, array_market_value, color="red", label="USD")
-            host.scatter(array_year, array_market_value, color="red", label="USD")
+    host.set_ylim(0, max(array_market_value) + 1 * 10 ** 9)
+    par1.set_ylim(0, max(array_ownership) + 0.2)
 
-            p2, = par1.plot(array_year, array_ownership, color="green", label="Ownership")
-            par1.scatter(array_year, array_ownership, color="green", label="Ownership")
+    # alternaive:
+    host.set_xlim(2000, 2022, 1)
 
-            # show grid
-            plt.grid(b=None, which='major', axis='both')
+    plt.title('Ownership of Norway in {}: '.format(company_name))
 
-            host.set_ylim(0, max(array_market_value) + 1 * 10 ** 9)
-            par1.set_ylim(0, max(array_ownership) + 0.2)
+    host.set_xlabel("Year")
+    host.set_ylabel("USD")
+    par1.set_ylabel("%")
 
-            # alternaive:
-            host.set_xlim(2000, 2022, 1)
+    lns = [p1, p2]
+    host.legend(handles=lns, loc='best')
+    host.yaxis.label.set_color(p1.get_color())
+    par1.yaxis.label.set_color(p2.get_color())
 
-            plt.title('Ownership of Norway in {}: '.format(company_name))
+    host.xaxis.set_major_locator(plt.MaxNLocator(integer=True))
 
-            host.set_xlabel("Year")
-            host.set_ylabel("USD")
-            par1.set_ylabel("%")
+    fig.tight_layout()
 
-            lns = [p1, p2]
-            host.legend(handles=lns, loc='best')
-            host.yaxis.label.set_color(p1.get_color())
-            par1.yaxis.label.set_color(p2.get_color())
+    plt.legend()
+    plt.show()
+    pass
 
-            host.xaxis.set_major_locator(plt.MaxNLocator(integer=True))
 
-            fig.tight_layout()
+def plot_data():
+    for elem in config.data_to_visualize:
+        plot_element_of_list(elem)
 
-            plt.legend()
-            plt.show()
+    pass
+
+
+def start():
+    if config.collect_companies_from_data:
+        collect_companies()
+
+    if config.visualize_data:
+        plot_data()
+
+    pass
+
+
+if __name__ == '__main__':
+    start()
+
+#TODO exclude data from array if no data for the last year exists
