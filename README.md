@@ -1,8 +1,14 @@
-# Norges Fund Analysis
+# Pension Fund of Norway - An Analysis
 
 ## Motivation
 I am kind of interested in economics and fascinated by norway and its fund.  
 All three combined, has led me to write irregularly (since 2020) but sometimes on this little Python script.
+
+## Objective 
+The aim of this script is to get a graphical overview of which companies the Norwegian fund has invested in and how high the investment is. 
+For a modular, dedicated view of individual industries, the respective industry can be selected in the configuration of the script.  
+Available are for example: Financial industry, Telecommunications and Technology.
+In this way, new companies can be found out and analyzed afterwards. Subsequently, a private investment can be considered.
 
 ## Prerequisites
 Python Interpreter: v3.09 is installed and functioning on the computer.  
