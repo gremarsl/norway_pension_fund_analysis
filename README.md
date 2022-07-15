@@ -6,7 +6,7 @@ All three combined, has led me to write irregularly (since 2020) but sometimes o
 
 ## Prerequisites
 Python Interpreter: v3.09 is installed and functioning on the computer.  
-With Python v3.10 I had incompatibilities.  
+With Python v3.10 I faced incompatibilities.  
 The Python packages are installed and ready for usage.
 
 ## Explanation and Preparation
@@ -44,6 +44,13 @@ For the execution of the script there are basically only two paths.
    You enter this second path when you configure in `user_config.py` the parameter `visualize_data` to one:  
    `visualize_data = 1`  
 
+### The first Execution
+With a prepared python environment and the locally available excelsheets, nothing stands in the way of a first program execution.  
+For the first execution both pathes are executed. The collected data will be printed in the console.  
+Let the execution continue. 
+After a further seconds, the first graph will be displayed. it will show a company investment of the norges bank.  
+If you want to continue to the next graph / next company investment, press X on the graphic plot.
+
 ### Usage
 | WARNING: From transition of 1. path to 2. path a manual step by the user is necessary! |
 |----------------------------------------------------------------------------------------|
@@ -60,18 +67,26 @@ What I mean by this:
       `STRUCTURE TO COPY`  
       `"####COPY THIS DATA ABOVE TO data.py #####`
    3. Copy this structure into `data.py`.
-   4. Give the matrix a name e.g. my_collected_data
-   5. Reference this name in `user_config.py`.
+   4. Give the matrix a name e.g. `my_collected_data`
+   5. Reference this variable `my_collected_data` with the parameter `data_to_visualize` in `user_config.py`.
 
 2. then another program execution can take place (this time path 2). With:  
    1. `collect_companies_from_data = 0` and `visualize_data = 1`. 
 
+## Improved usage
+Here's some more info if you're already a little more familiar with the parameters described above.
 
+### Performance - Number of companies to analyze
 As briefly mentioned above, the first path is very computationally and time intensive. The execution time of the data collection depends decisively on the 
 number of companies to be analyzed.  
 Simple: More companies -> more data collection actions.   
 Here, there is no longer a linear relationship between execution time <-> number of companies. 
 The number of companies to be considered can be limited with: `number_of_companies_to_analyze` in `user_config.py`. 
+
+### Analyze other industries
+You can analyze further industries and can choose among the list `industries`. 
+Lets say you want to analyze the investments of the norges bank in the consumer goods industry, just assign  
+`industry_to_analyze = "Consumer Goods"`  in `user_config.py`.
 
 ## Possible Improvements
 - Improved Config adujstments 
