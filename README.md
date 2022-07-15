@@ -16,8 +16,8 @@ With Python v3.10 I faced incompatibilities.
 The Python packages are installed and ready for usage.
 
 ## Explanation and Preparation
-### Where does the data for the norges fund analysis come from?
-Norges Bank provides all data and investments.  
+### Where does the data for the norway pension fund analysis come from?
+The Norges Bank provides all data and investments.  
 For a fund analysis with this script the files are required and can be downloaded here:  
 https://www.nbim.no/en/the-fund/investments/#
 Where we can best store or reference them I describe in Preparations
@@ -54,7 +54,7 @@ For the execution of the script there are basically only two paths.
 With a prepared python environment and the locally available excelsheets, nothing stands in the way of a first program execution.  
 For the first execution both pathes are executed. The collected data will be printed in the console.  
 Let the execution continue. 
-After a further seconds, the first graph will be displayed. it will show a company investment of the norges bank.  
+After a further seconds, the first graph will be displayed. It will show a company investment of the norges bank / the pension fund.  
 If you want to continue to the next graph / next company investment, press X on the graphic plot.
 
 ### Usage
@@ -91,7 +91,7 @@ The number of companies to be considered can be limited with: `number_of_compani
 
 ### Analyze other industries
 You can analyze further industries and can choose among the list `industries`. 
-Lets say you want to analyze the investments of the norges bank in the consumer goods industry, just assign  
+Lets say you want to analyze the investments of the norway pension fund in the consumer goods industry, just assign  
 `industry_to_analyze = "Consumer Goods"`  in `user_config.py`.
 
 ## Possible Improvements
