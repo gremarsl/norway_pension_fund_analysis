@@ -8,7 +8,6 @@ array_all_companies = []
 ownership = []
 data_of_all_elements = []
 
-# TODO testframework um modularisiert zu testen
 
 def get_invested_capital_in_each_sector():
     for filename in os.listdir(user_config.directory):
@@ -52,8 +51,7 @@ def get_company_names_by_industry_and_market_value(industry, number_of_companies
     # delete duplicated
     flat_list_without_douplicates = list(set(flat_list))
 
-    print(flat_list_without_douplicates)
-    print(f"There are {flat_list_without_douplicates} companies to analyse")
+    print(f"These are the companies to analyse: {flat_list_without_douplicates}")
     return flat_list_without_douplicates
 
 
@@ -100,15 +98,21 @@ def analyse_data(industry, companies_to_analyze):
                 data_of_all_elements.append(data_of_one_element)
 
             else:
-                #skip this data since it is two old
+                # skip this data since it is two old
                 continue
 
-    print(user_config.data_of_all_elements)
+    print("####COPY THIS DATA BELOW TO data.py #####")
+    print(data_of_all_elements)
+    print("####COPY THIS DATA ABOVE TO data.py #####")
 
-    return user_config.data_of_all_elements
+    return data_of_all_elements
 
 
 def collect_companies():
+    """
+Purpose of this function is to get the data out of the excel sheets (.xlsx) and plot output into the console for further
+usage and later data graph plotting.
+    """
     companies_to_analyze = get_company_names_by_industry_and_market_value(user_config.industry_to_analyze,
                                                                           user_config.number_of_companies_to_analyze)
 
